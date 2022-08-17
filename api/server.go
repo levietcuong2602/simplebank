@@ -5,6 +5,6 @@ import (
 )
 
 type Server struct {
-	store  *db.store
+	// store  *db.store
 	router *gin.Engine
 }

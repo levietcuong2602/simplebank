@@ -1,7 +1,7 @@
 BEGIN;
 
 CREATE TABLE IF NOT EXISTS "accounts" (
-  "id" int PRIMARY KEY,
+  "id" bigserial PRIMARY KEY,
   "owner" varchar(255) NOT NULL,
   "balance" bigint NOT NULL,
   "currency" varchar(255) NOT NULL,
@@ -9,16 +9,16 @@ CREATE TABLE IF NOT EXISTS "accounts" (
 );
 
 CREATE TABLE IF NOT EXISTS "entries" (
-  "id" int PRIMARY KEY,
-  "account_id" bigint,
+  "id" bigserial PRIMARY KEY,
+  "account_id" bigint  NOT NULL,
   "amount" bigint NOT NULL,
   "created_at" timestamptz
 );
 
 CREATE TABLE IF NOT EXISTS "transfers" (
-  "id" int PRIMARY KEY,
-  "from_account_id" int,
-  "to_account_id" int,
+  "id" bigserial PRIMARY KEY,
+  "from_account_id" bigint  NOT NULL,
+  "to_account_id" bigint  NOT NULL,
   "amount" bigint NOT NULL,
   "created_at" timestamptz NOT NULL
 );

@@ -10,7 +10,7 @@ import (
 )
 
 type Account struct {
-	ID        int32     `json:"id"`
+	ID        int64     `json:"id"`
 	Owner     string    `json:"owner"`
 	Balance   int64     `json:"balance"`
 	Currency  string    `json:"currency"`
@@ -18,16 +18,16 @@ type Account struct {
 }
 
 type Entry struct {
-	ID        int32         `json:"id"`
-	AccountID sql.NullInt64 `json:"account_id"`
-	Amount    int64         `json:"amount"`
-	CreatedAt sql.NullTime  `json:"created_at"`
+	ID        int64        `json:"id"`
+	AccountID int64        `json:"account_id"`
+	Amount    int64        `json:"amount"`
+	CreatedAt sql.NullTime `json:"created_at"`
 }
 
 type Transfer struct {
-	ID            int32         `json:"id"`
-	FromAccountID sql.NullInt32 `json:"from_account_id"`
-	ToAccountID   sql.NullInt32 `json:"to_account_id"`
-	Amount        int64         `json:"amount"`
-	CreatedAt     time.Time     `json:"created_at"`
+	ID            int64     `json:"id"`
+	FromAccountID int64     `json:"from_account_id"`
+	ToAccountID   int64     `json:"to_account_id"`
+	Amount        int64     `json:"amount"`
+	CreatedAt     time.Time `json:"created_at"`
 }
