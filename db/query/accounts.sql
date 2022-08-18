@@ -6,6 +6,8 @@ SELECT * FROM accounts
 WHERE id = $1
 LIMIT 1;
 
+-- name: CountAccounts :one
+SELECT count(id) FROM accounts;
 
 -- name: GetListAccounts :many
 SELECT * FROM accounts

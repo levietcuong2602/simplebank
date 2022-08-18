@@ -1,11 +1,11 @@
 package api
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	db "github.com/levietcuong2602/simplebank/db/sqlc"
+	"github.com/levietcuong2602/simplebank/utils"
 )
 
 type CreateAccountRequest struct {
@@ -70,14 +70,28 @@ func (server *Server) GetListAccounts(ctx *gin.Context) {
 		Limit:  int32(req.Limit),
 		Offset: int32(offset),
 	}
-	log.Println("====== Only Bind By Query String ======")
-	log.Println(req.Limit)
-	log.Println(req.PageNum)
 	accounts, err := server.store.GetListAccounts(ctx, arg)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
 
-	ctx.JSON(http.StatusOK, accounts)
+	data := make([]interface{}, len(accounts))
+	for i, v := range accounts {
+		data[i] = v
+	}
+
+	countAccounts, err := server.store.CountAccounts(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+	newPaginationParams := utils.NewPaginationParams{
+		PageNum:    req.PageNum,
+		Limit:      req.Limit,
+		TotalCount: int32(countAccounts),
+		Data:       data,
+	}
+	pagination := utils.NewPagination(newPaginationParams)
+	ctx.JSON(http.StatusOK, pagination)
 }
